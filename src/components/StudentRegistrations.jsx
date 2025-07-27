@@ -6,17 +6,21 @@ const StudentRegistrations = () => {
     courseOfferings,
     registrations,
     setRegistrations,
+    courseTypes,
   } = useCourseContext();
 
   const [studentName, setStudentName] = useState('');
   const [email, setEmail] = useState('');
+  const [selectedCourseType, setSelectedCourseType] = useState('');
   const [selectedOfferingId, setSelectedOfferingId] = useState('');
   const [error, setError] = useState('');
 
   const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const validateEmail = (email) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const filteredOfferings = selectedCourseType
+    ? courseOfferings.filter((o) => o.courseType === selectedCourseType)
+    : courseOfferings;
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -85,6 +89,25 @@ const StudentRegistrations = () => {
         </div>
 
         <div className="flex flex-col gap-1">
+          <label className="text-sm">Filter by Course Type:</label>
+          <select
+            value={selectedCourseType}
+            onChange={(e) => {
+              setSelectedCourseType(e.target.value);
+              setSelectedOfferingId(''); // reset offering selection
+            }}
+            className="p-2 border rounded"
+          >
+            <option value="">-- All Types --</option>
+            {courseTypes.map((type) => (
+              <option key={type.id} value={type.name}>
+                {type.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-1">
           <label className="text-sm">Course Offering:</label>
           <select
             value={selectedOfferingId}
@@ -92,7 +115,7 @@ const StudentRegistrations = () => {
             className="p-2 border rounded"
           >
             <option value="">-- Select Offering --</option>
-            {courseOfferings.map((offering) => (
+            {filteredOfferings.map((offering) => (
               <option key={offering.id} value={offering.id}>
                 {offering.courseType} - {offering.course}
               </option>
