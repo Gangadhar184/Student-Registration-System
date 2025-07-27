@@ -1,53 +1,62 @@
-import {useState} from 'react'
+import { useState } from 'react';
+import { useCourseContext } from '../context/CourseContext';
 
 const Courses = () => {
-  const [courses, setCourses] = useState([])
-  const [name, setName] = useState('')
-  const [editId, setEditId] = useState(null)
-  const [error, setError] = useState('')
+  const { courses, setCourses,  } = useCourseContext()
+  const [name, setName] = useState('');
+  const [editId, setEditId] = useState(null);
+  const [error, setError] = useState('');
 
-  const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 10000)}`
+  const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!name.trim()) {
-      setError('Course name cannot be empty.')
-      return
+    e.preventDefault();
+
+    const trimmedName = name.trim();
+    if (!trimmedName) {
+      setError('Course name cannot be empty.');
+      return;
     }
-    setError('')
+
+    const isDuplicate = courses.some(
+      (c) => c.name.toLowerCase() === trimmedName.toLowerCase() && c.id !== editId
+    );
+    if (isDuplicate) {
+      setError('Course name already exists.');
+      return;
+    }
+
+    setError('');
 
     if (editId !== null) {
-      setCourses(prev =>
-        prev.map(course =>
-          course.id === editId ? { ...course, name: name.trim() } : course
+      setCourses((prev) =>
+        prev.map((course) =>
+          course.id === editId ? { ...course, name: trimmedName } : course
         )
-      )
-      setEditId(null)
+      );
+      setEditId(null);
     } else {
-      setCourses(prev => [
-        ...prev,
-        { id: generateId(), name: name.trim() }
-      ])
+      setCourses((prev) => [...prev, { id: generateId(), name: trimmedName }]);
     }
 
-    setName('')
-  }
+    setName('');
+  };
 
   const handleEdit = (id) => {
-    const course = courses.find(c => c.id === id)
+    const course = courses.find((c) => c.id === id);
     if (course) {
-      setName(course.name)
-      setEditId(id)
+      setName(course.name);
+      setEditId(id);
     }
-  }
+  };
 
   const handleDelete = (id) => {
-    setCourses(prev => prev.filter(c => c.id !== id))
+    setCourses((prev) => prev.filter((c) => c.id !== id));
     if (editId === id) {
-      setEditId(null)
-      setName('')
+      setEditId(null);
+      setName('');
     }
-  }
+  };
 
   return (
     <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
@@ -100,8 +109,7 @@ const Courses = () => {
         )}
       </ul>
     </div>
-  )
+  );
+};
 
-}
-
-export default Courses
+export default Courses;

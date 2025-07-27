@@ -1,78 +1,68 @@
-
-
-import { useState } from 'react'
-
-
-const dummyCourseTypes = ['Individual', 'Group', 'Special']
-const dummyCourses = ['Hindi', 'English', 'Urdu']
+import { useState } from 'react';
+import { useCourseContext } from '../context/CourseContext';
 
 const CourseOfferings = () => {
-  const [courseType, setCourseType] = useState('')
-  const [course, setCourse] = useState('')
-  const [offerings, setOfferings] = useState([])
-  const [editId, setEditId] = useState(null)
-  const [error, setError] = useState('')
+  const { courseTypes, courses, courseOfferings, setCourseOfferings } = useCourseContext();
+  const [courseType, setCourseType] = useState('');
+  const [course, setCourse] = useState('');
+  const [editId, setEditId] = useState(null);
+  const [error, setError] = useState('');
 
-  const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 10000)}`
+  const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 10000)}`;
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!course || !courseType) {
-      setError('Please select both course and course type.')
-      return
+      setError('Please select both course and course type.');
+      return;
     }
 
-    const duplicate = offerings.some(
-      (o) =>
-        o.courseType === courseType &&
-        o.course === course &&
-        o.id !== editId
-    )
+    const duplicate = courseOfferings.some(
+      (o) => o.courseType === courseType && o.course === course && o.id !== editId
+    );
 
     if (duplicate) {
-      setError('This course offering already exists.')
-      return
+      setError('This course offering already exists.');
+      return;
     }
 
     if (editId !== null) {
-      setOfferings((prev) =>
-        prev.map((o) =>
-          o.id === editId ? { ...o, courseType, course } : o
-        )
-      )
-      setEditId(null)
+      setCourseOfferings((prev) =>
+        prev.map((o) => (o.id === editId ? { ...o, courseType, course } : o))
+      );
+      setEditId(null);
     } else {
       const newOffering = {
         id: generateId(),
         courseType,
-        course
-      }
-      setOfferings((prev) => [...prev, newOffering])
+        course,
+      };
+      setCourseOfferings((prev) => [...prev, newOffering]);
     }
 
-    setCourse('')
-    setCourseType('')
-    setError('')
-  }
+    setCourse('');
+    setCourseType('');
+    setError('');
+  };
 
   const handleEdit = (id) => {
-    const toEdit = offerings.find((o) => o.id === id)
+    const toEdit = courseOfferings.find((o) => o.id === id);
     if (toEdit) {
-      setCourse(toEdit.course)
-      setCourseType(toEdit.courseType)
-      setEditId(id)
+      setCourse(toEdit.course);
+      setCourseType(toEdit.courseType);
+      setEditId(id);
     }
-  }
+  };
 
   const handleDelete = (id) => {
-    setOfferings((prev) => prev.filter((o) => o.id !== id))
+    setCourseOfferings((prev) => prev.filter((o) => o.id !== id));
     if (editId === id) {
-      setEditId(null)
-      setCourse('')
-      setCourseType('')
+      setEditId(null);
+      setCourse('');
+      setCourseType('');
     }
-  }
+  };
 
   return (
     <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
@@ -87,8 +77,10 @@ const CourseOfferings = () => {
             className="p-2 border rounded"
           >
             <option value="">-- Choose Type --</option>
-            {dummyCourseTypes.map((type) => (
-              <option key={type}>{type}</option>
+            {courseTypes.map((type) => (
+              <option key={type.id || type} value={type.name || type}>
+                {type.name || type}
+              </option>
             ))}
           </select>
         </div>
@@ -101,8 +93,10 @@ const CourseOfferings = () => {
             className="p-2 border rounded"
           >
             <option value="">-- Choose Course --</option>
-            {dummyCourses.map((c) => (
-              <option key={c}>{c}</option>
+            {courses.map((c) => (
+              <option key={c.id || c} value={c.name || c}>
+                {c.name || c}
+              </option>
             ))}
           </select>
         </div>
@@ -118,15 +112,17 @@ const CourseOfferings = () => {
       {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
 
       <ul className="space-y-2">
-        {offerings.length === 0 ? (
+        {courseOfferings.length === 0 ? (
           <p className="text-gray-500">No course offerings added yet.</p>
         ) : (
-          offerings.map((offering) => (
+          courseOfferings.map((offering) => (
             <li
               key={offering.id}
               className="flex justify-between items-center border p-2 rounded"
             >
-              <span>{offering.courseType} - {offering.course}</span>
+              <span>
+                {offering.courseType} - {offering.course}
+              </span>
               <div className="space-x-2">
                 <button
                   onClick={() => handleEdit(offering.id)}
@@ -146,8 +142,7 @@ const CourseOfferings = () => {
         )}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default CourseOfferings
-
+export default CourseOfferings;

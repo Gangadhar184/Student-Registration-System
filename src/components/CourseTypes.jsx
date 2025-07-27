@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState } from "react";
+import { useCourseContext } from "../context/CourseContext";
 
 const CourseTypes = () => {
-  const [courseTypes, setCourseTypes] = useState([])
+  const { courseTypes, setCourseTypes } = useCourseContext()
   const [name, setName] = useState('')
   const [editId, setEditId] = useState(null)
   const [error, setError] = useState('')
