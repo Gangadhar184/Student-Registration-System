@@ -66,7 +66,7 @@ const CourseTypes = () => {
         />
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto"
+          className="bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto cursor-pointer"
         >
           {editId ? 'Update' : 'Add'}
         </button>
@@ -87,13 +87,14 @@ const CourseTypes = () => {
             <div className="space-x-3">
               <button
                 onClick={() => handleEdit(type.id)}
-                className="text-yellow-600 hover:underline"
+                className="text-yellow-600 hover:underline cursor-pointer"
               >
                 Edit
               </button>
               <button
                 onClick={() => handleDelete(type.id)}
-                className="text-red-600 hover:underline"
+                className="text-red-600 hover:underline cursor-pointer
+                 "
               >
                 Delete
               </button>

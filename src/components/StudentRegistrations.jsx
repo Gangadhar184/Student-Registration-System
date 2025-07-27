@@ -98,7 +98,7 @@ const StudentRegistrations = () => {
             }}
             className="p-2 border rounded"
           >
-            <option value="">-- All Types --</option>
+            <option value="">All Types</option>
             {courseTypes.map((type) => (
               <option key={type.id} value={type.name}>
                 {type.name}
@@ -114,7 +114,7 @@ const StudentRegistrations = () => {
             onChange={(e) => setSelectedOfferingId(e.target.value)}
             className="p-2 border rounded"
           >
-            <option value="">-- Select Offering --</option>
+            <option value="">Select Offering</option>
             {filteredOfferings.map((offering) => (
               <option key={offering.id} value={offering.id}>
                 {offering.courseType} - {offering.course}
@@ -126,7 +126,7 @@ const StudentRegistrations = () => {
         <div className="sm:col-span-2">
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200 cursor-pointer"
           >
             Register Student
           </button>
@@ -163,7 +163,7 @@ const StudentRegistrations = () => {
                     </span>
                     <button
                       onClick={() => handleDelete(offeringId, student.id)}
-                      className="text-red-600 hover:underline text-xs"
+                      className="text-red-600 hover:underline text-xs cursor-pointer"
                     >
                       Delete
                     </button>

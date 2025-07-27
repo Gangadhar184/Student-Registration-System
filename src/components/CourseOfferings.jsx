@@ -85,7 +85,7 @@ const CourseOfferings = () => {
             onChange={(e) => setCourseType(e.target.value)}
             className="p-2 border rounded"
           >
-            <option value="">-- Choose Type --</option>
+            <option value="">Choose Type</option>
             {courseTypes.map((type) => (
               <option key={type.id || type} value={type.name || type}>
                 {type.name || type}
@@ -101,7 +101,7 @@ const CourseOfferings = () => {
             onChange={(e) => setCourse(e.target.value)}
             className="p-2 border rounded"
           >
-            <option value="">-- Choose Course --</option>
+            <option value="">Choose Course</option>
             {courses.map((c) => (
               <option key={c.id || c} value={c.name || c}>
                 {c.name || c}
@@ -112,7 +112,7 @@ const CourseOfferings = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded"
+          className="w-full bg-blue-600 text-white py-2 rounded cursor-pointer"
         >
           {editId !== null ? 'Update Offering' : 'Add Offering'}
         </button>
@@ -139,13 +139,13 @@ const CourseOfferings = () => {
               <div className="space-x-3">
                 <button
                   onClick={() => handleEdit(offering.id)}
-                  className="text-yellow-600 hover:underline"
+                  className="text-yellow-600 hover:underline cursor-pointer "
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(offering.id)}
-                  className="text-red-600 hover:underline"
+                  className="text-red-600 hover:underline cursor-pointer "
                 >
                   Delete
                 </button>
