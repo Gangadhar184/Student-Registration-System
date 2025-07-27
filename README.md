@@ -1,12 +1,57 @@
-# React + Vite
+# Assignment of Eleven Software Solutions Pvt
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Student Course Registration System
 
-Currently, two official plugins are available:
+- A responsive single-page React application to manage:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Course Types (e.g., Individual, Group, Special)
 
-## Expanding the ESLint configuration
+- Courses (e.g., Programming, Java, C++)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Course Offerings (associating courses with course types)
+
+- Student Registrations (based on selected course offerings)
+
+- All state is managed globally via the Context API.
+
+## Project Structure
+
+    src/
+├── components/
+│   ├── CourseTypes.jsx
+│   ├── Courses.jsx
+│   ├── CourseOfferings.jsx
+│   └── StudentRegistrations.jsx
+├── context/
+│   └── CourseContext.jsx
+
+├── App.jsx
+└── main.jsx
+
+## Features
+
+Features
+
+- Add, edit, delete Course Types
+
+- Add, edit, delete Courses
+
+- Add, edit, delete Course Offerings
+
+- Register students for a Course Offering
+
+- Delete a registration
+
+- Filter course offerings by selected course type (in registration form)
+
+- Real-time context updates across components
+
+- Fully responsive UI with TailwindCSS
+
+## Tech Stack
+
+React (Functional Components + Hooks)
+
+Context API (Global state)
+
+Tailwind CSS (Styling)
