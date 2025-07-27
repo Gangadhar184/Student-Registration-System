@@ -63,12 +63,12 @@ const StudentRegistrations = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Student Registrations</h2>
+    <div className="max-w-4xl w-full mx-auto bg-white p-6 sm:p-8 rounded shadow-md">
+      <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Student Registrations</h2>
 
-      <form onSubmit={handleRegister} className="space-y-4 mb-4">
+      <form onSubmit={handleRegister} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <div className="flex flex-col gap-1">
-          <label className="text-sm">Student Name:</label>
+          <label className="text-sm font-medium">Student Name:</label>
           <input
             value={studentName}
             onChange={(e) => setStudentName(e.target.value)}
@@ -78,7 +78,7 @@ const StudentRegistrations = () => {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm">Email:</label>
+          <label className="text-sm font-medium">Email:</label>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -89,12 +89,12 @@ const StudentRegistrations = () => {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm">Filter by Course Type:</label>
+          <label className="text-sm font-medium">Filter by Course Type:</label>
           <select
             value={selectedCourseType}
             onChange={(e) => {
               setSelectedCourseType(e.target.value);
-              setSelectedOfferingId(''); // reset offering selection
+              setSelectedOfferingId('');
             }}
             className="p-2 border rounded"
           >
@@ -108,7 +108,7 @@ const StudentRegistrations = () => {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm">Course Offering:</label>
+          <label className="text-sm font-medium">Course Offering:</label>
           <select
             value={selectedOfferingId}
             onChange={(e) => setSelectedOfferingId(e.target.value)}
@@ -123,19 +123,23 @@ const StudentRegistrations = () => {
           </select>
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded"
-        >
-          Register Student
-        </button>
+        <div className="sm:col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
+          >
+            Register Student
+          </button>
+        </div>
 
-        {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+        {error && (
+          <p className="text-red-500 text-sm sm:col-span-2 mt-2">{error}</p>
+        )}
       </form>
 
       <hr className="my-4" />
 
-      <h3 className="text-lg font-semibold mb-2">Registrations</h3>
+      <h3 className="text-lg font-semibold mb-3">Registrations</h3>
       {Object.keys(registrations).length === 0 ? (
         <p className="text-gray-500">No registrations yet.</p>
       ) : (
@@ -144,17 +148,17 @@ const StudentRegistrations = () => {
           if (!offering) return null;
 
           return (
-            <div key={offeringId} className="mb-4">
-              <h4 className="font-semibold mb-1">
+            <div key={offeringId} className="mb-6">
+              <h4 className="font-semibold text-sm sm:text-base mb-2">
                 {offering.courseType} - {offering.course}
               </h4>
-              <ul className="pl-4 space-y-1 text-sm">
+              <ul className="space-y-2">
                 {students.map((student) => (
                   <li
                     key={student.id}
-                    className="flex justify-between items-center border p-2 rounded"
+                    className="flex flex-col sm:flex-row justify-between items-start sm:items-center border p-2 rounded gap-2"
                   >
-                    <span>
+                    <span className="text-sm">
                       {student.name} ({student.email})
                     </span>
                     <button

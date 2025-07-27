@@ -72,12 +72,14 @@ const CourseOfferings = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Course Offerings</h2>
+    <div className="max-w-2xl mx-auto bg-white p-4 sm:p-6 rounded shadow">
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center sm:text-left">
+        Course Offerings
+      </h2>
 
       <form onSubmit={handleSubmit} className="space-y-4 mb-4">
         <div className="flex flex-col gap-1">
-          <label className="text-sm">Select Course Type:</label>
+          <label className="text-sm font-medium">Select Course Type:</label>
           <select
             value={courseType}
             onChange={(e) => setCourseType(e.target.value)}
@@ -93,7 +95,7 @@ const CourseOfferings = () => {
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-sm">Select Course:</label>
+          <label className="text-sm font-medium">Select Course:</label>
           <select
             value={course}
             onChange={(e) => setCourse(e.target.value)}
@@ -125,16 +127,16 @@ const CourseOfferings = () => {
           courseOfferings.map((offering) => (
             <li
               key={offering.id}
-              className="flex justify-between items-center border p-2 rounded"
+              className="flex flex-col sm:flex-row justify-between items-start sm:items-center border p-3 rounded"
             >
-              <span>
-                {offering.courseType} - {offering.course}{' '}
+              <span className="mb-2 sm:mb-0">
+                <strong>{offering.courseType}</strong> - {offering.course}{' '}
                 <span className="text-sm text-gray-500">
                   ({registrations[offering.id]?.length || 0} student
                   {registrations[offering.id]?.length === 1 ? '' : 's'})
                 </span>
               </span>
-              <div className="space-x-2">
+              <div className="space-x-3">
                 <button
                   onClick={() => handleEdit(offering.id)}
                   className="text-yellow-600 hover:underline"

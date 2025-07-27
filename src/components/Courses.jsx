@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useCourseContext } from '../context/CourseContext';
 
 const Courses = () => {
-  const { courses, setCourses,  } = useCourseContext()
+  const { courses, setCourses } = useCourseContext();
   const [name, setName] = useState('');
   const [editId, setEditId] = useState(null);
   const [error, setError] = useState('');
@@ -59,20 +59,25 @@ const Courses = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Manage Courses</h2>
+    <div className="max-w-2xl mx-auto bg-white p-4 sm:p-6 rounded shadow">
+      <h2 className="text-xl sm:text-2xl font-bold mb-4 text-center sm:text-left">
+        Manage Courses
+      </h2>
 
-      <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col sm:flex-row gap-2 mb-4"
+      >
         <input
           type="text"
           placeholder="Enter course name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="flex-1 p-2 border rounded"
+          className="w-full sm:flex-1 p-2 border rounded"
         />
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto"
         >
           {editId !== null ? 'Update' : 'Add'}
         </button>
@@ -87,10 +92,10 @@ const Courses = () => {
           courses.map((course) => (
             <li
               key={course.id}
-              className="flex justify-between items-center border p-2 rounded"
+              className="flex flex-col sm:flex-row justify-between items-start sm:items-center border p-3 rounded"
             >
-              <span>{course.name}</span>
-              <div className="space-x-2">
+              <span className="mb-2 sm:mb-0">{course.name}</span>
+              <div className="space-x-3">
                 <button
                   onClick={() => handleEdit(course.id)}
                   className="text-yellow-600 hover:underline"
