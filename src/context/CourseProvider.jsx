@@ -6,6 +6,7 @@ export const CourseProvider = ({ children }) => {
   const [courseTypes, setCourseTypes] = useState([])
   const [courses, setCourses] = useState([])
   const [courseOfferings, setCourseOfferings] = useState([])
+  const [registrations, setRegistrations] = useState({})
 
   return (
     <CourseContext.Provider
@@ -16,6 +17,8 @@ export const CourseProvider = ({ children }) => {
         setCourses,
         courseOfferings,
         setCourseOfferings,
+        registrations,             
+        setRegistrations, 
       }}
     >
       {children}

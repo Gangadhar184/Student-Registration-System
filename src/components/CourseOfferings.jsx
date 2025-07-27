@@ -2,7 +2,14 @@ import { useState } from 'react';
 import { useCourseContext } from '../context/CourseContext';
 
 const CourseOfferings = () => {
-  const { courseTypes, courses, courseOfferings, setCourseOfferings } = useCourseContext();
+  const {
+    courseTypes,
+    courses,
+    courseOfferings,
+    setCourseOfferings,
+    registrations,
+  } = useCourseContext();
+
   const [courseType, setCourseType] = useState('');
   const [course, setCourse] = useState('');
   const [editId, setEditId] = useState(null);
@@ -121,7 +128,11 @@ const CourseOfferings = () => {
               className="flex justify-between items-center border p-2 rounded"
             >
               <span>
-                {offering.courseType} - {offering.course}
+                {offering.courseType} - {offering.course}{' '}
+                <span className="text-sm text-gray-500">
+                  ({registrations[offering.id]?.length || 0} student
+                  {registrations[offering.id]?.length === 1 ? '' : 's'})
+                </span>
               </span>
               <div className="space-x-2">
                 <button
