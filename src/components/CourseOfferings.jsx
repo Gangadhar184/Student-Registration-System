@@ -1,9 +1,153 @@
 import React from 'react'
 
+import { useState } from 'react'
+
+
+const dummyCourseTypes = ['Individual', 'Group', 'Special']
+const dummyCourses = ['Hindi', 'English', 'Urdu']
+
 const CourseOfferings = () => {
+  const [courseType, setCourseType] = useState('')
+  const [course, setCourse] = useState('')
+  const [offerings, setOfferings] = useState([])
+  const [editId, setEditId] = useState(null)
+  const [error, setError] = useState('')
+
+  const generateId = () => `${Date.now()}-${Math.floor(Math.random() * 10000)}`
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    if (!course || !courseType) {
+      setError('Please select both course and course type.')
+      return
+    }
+
+    const duplicate = offerings.some(
+      (o) =>
+        o.courseType === courseType &&
+        o.course === course &&
+        o.id !== editId
+    )
+
+    if (duplicate) {
+      setError('This course offering already exists.')
+      return
+    }
+
+    if (editId !== null) {
+      setOfferings((prev) =>
+        prev.map((o) =>
+          o.id === editId ? { ...o, courseType, course } : o
+        )
+      )
+      setEditId(null)
+    } else {
+      const newOffering = {
+        id: generateId(),
+        courseType,
+        course
+      }
+      setOfferings((prev) => [...prev, newOffering])
+    }
+
+    setCourse('')
+    setCourseType('')
+    setError('')
+  }
+
+  const handleEdit = (id) => {
+    const toEdit = offerings.find((o) => o.id === id)
+    if (toEdit) {
+      setCourse(toEdit.course)
+      setCourseType(toEdit.courseType)
+      setEditId(id)
+    }
+  }
+
+  const handleDelete = (id) => {
+    setOfferings((prev) => prev.filter((o) => o.id !== id))
+    if (editId === id) {
+      setEditId(null)
+      setCourse('')
+      setCourseType('')
+    }
+  }
+
   return (
-    <div>CourseOfferings</div>
+    <div className="max-w-xl mx-auto bg-white p-6 rounded shadow">
+      <h2 className="text-2xl font-bold mb-4">Course Offerings</h2>
+
+      <form onSubmit={handleSubmit} className="space-y-4 mb-4">
+        <div className="flex flex-col gap-1">
+          <label className="text-sm">Select Course Type:</label>
+          <select
+            value={courseType}
+            onChange={(e) => setCourseType(e.target.value)}
+            className="p-2 border rounded"
+          >
+            <option value="">-- Choose Type --</option>
+            {dummyCourseTypes.map((type) => (
+              <option key={type}>{type}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-sm">Select Course:</label>
+          <select
+            value={course}
+            onChange={(e) => setCourse(e.target.value)}
+            className="p-2 border rounded"
+          >
+            <option value="">-- Choose Course --</option>
+            {dummyCourses.map((c) => (
+              <option key={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded"
+        >
+          {editId !== null ? 'Update Offering' : 'Add Offering'}
+        </button>
+      </form>
+
+      {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+
+      <ul className="space-y-2">
+        {offerings.length === 0 ? (
+          <p className="text-gray-500">No course offerings added yet.</p>
+        ) : (
+          offerings.map((offering) => (
+            <li
+              key={offering.id}
+              className="flex justify-between items-center border p-2 rounded"
+            >
+              <span>{offering.courseType} - {offering.course}</span>
+              <div className="space-x-2">
+                <button
+                  onClick={() => handleEdit(offering.id)}
+                  className="text-yellow-600 hover:underline"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDelete(offering.id)}
+                  className="text-red-600 hover:underline"
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))
+        )}
+      </ul>
+    </div>
   )
 }
 
 export default CourseOfferings
+
